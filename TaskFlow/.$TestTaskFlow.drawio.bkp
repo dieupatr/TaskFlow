@@ -1,0 +1,31 @@
+<mxfile host="Electron" modified="2024-04-13T16:19:49.246Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.1 Chrome/112.0.5615.204 Electron/24.6.1 Safari/537.36" etag="qj03eeHcE4Q-6pvB7S_5" version="21.6.1" type="device">
+  <diagram name="Seite-1" id="PKIkJt4GBj710I5E7Pl8">
+    <mxGraphModel dx="1394" dy="331" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CvgKrLEkAlBQOtNbtJtI-7" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="CvgKrLEkAlBQOtNbtJtI-1" target="CvgKrLEkAlBQOtNbtJtI-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CvgKrLEkAlBQOtNbtJtI-1" value="Input" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="270" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="CvgKrLEkAlBQOtNbtJtI-6" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="CvgKrLEkAlBQOtNbtJtI-2" target="CvgKrLEkAlBQOtNbtJtI-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CvgKrLEkAlBQOtNbtJtI-2" value="" style="sketch=0;html=1;aspect=fixed;strokeColor=none;shadow=0;fillColor=#3B8DF1;verticalAlign=top;labelPosition=center;verticalLabelPosition=bottom;shape=mxgraph.gcp2.play_start" vertex="1" parent="1">
+          <mxGeometry x="-40" y="200" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="CvgKrLEkAlBQOtNbtJtI-4" value="" style="ellipse;html=1;shape=endState;fillColor=strokeColor;" vertex="1" parent="1">
+          <mxGeometry x="480" y="240" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="CvgKrLEkAlBQOtNbtJtI-8" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.093;entryY=0.98;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="CvgKrLEkAlBQOtNbtJtI-5" target="CvgKrLEkAlBQOtNbtJtI-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CvgKrLEkAlBQOtNbtJtI-5" value="Print" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

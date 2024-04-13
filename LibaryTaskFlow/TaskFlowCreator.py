@@ -3,6 +3,8 @@ import pickle
 
 import os
 
+import sys
+
 
 
 # Generate by AI
@@ -75,12 +77,11 @@ def BuildActionsDictonary(Function):
 def CodeGeneration(ActionsString, NameObjectList, DiagrammName,RootFolderName):
 
        return (f"""
-from Action_Definitions import *
+from Task_Definitions_{DiagrammName} import *
 import pickle
 
 
-#Load Objects
-with open('{NameObjectList}', 'rb') as file:   Objects = pickle.load(file)
+Objects=? §
 
 #Load Arrows
 with open('{RootFolderName}'+'/Arrows_{DiagrammName}.pkl', 'rb') as file:   Arrows = pickle.load(file)
@@ -94,7 +95,7 @@ with open('{RootFolderName}'+'/StartBlocks_{DiagrammName}.pkl', 'rb') as file:  
 #Load DecisionBlocks
 with open('{RootFolderName}'+'/DecisionBlocks_{DiagrammName}.pkl', 'rb') as file:   DecisionBlocks= pickle.load(file)
 
-Actions=?
+Tasks=?
 
        {ActionsString}
 
@@ -128,7 +129,7 @@ def Flow_{DiagrammName}():
                             value=Blocks[nextId][0]
                             Type=Blocks[nextId][1]
 
-                            if Type=="Action":  Actions[value](Objects)
+                            if Type=="Task":  Tasks[value](Objects)
 
                             if Type=="End":
                                    print("Flow Complete")
@@ -163,10 +164,6 @@ def Flow_{DiagrammName}():
 
 
 
-
-
-
-
 def DefineActionFromDigramm( Diagramm, DiagrammName ):
        Variables={}
        Function={}
@@ -180,6 +177,9 @@ def DefineActionFromDigramm( Diagramm, DiagrammName ):
 
        Decision={ }
 
+
+       FormTaskFlow=["rounded=1", "shape=process2","shape=note","shape=folder" ]
+
        for block in Diagramm.blocks:
 
               value=block.Attr["value"]
@@ -190,8 +190,11 @@ def DefineActionFromDigramm( Diagramm, DiagrammName ):
                      
                      Variables[value]=""
                      RelevantBlocks[Id]=(value,"Object")
-                     
-              if Type=="rounded=1" or Type=="rhombus" :
+
+
+     
+                
+              if (Type in FormTaskFlow) or Type=="rhombus" :
                      value=FormatFunctionValue(value)
                      
                      Function[Id]=value
@@ -200,9 +203,11 @@ def DefineActionFromDigramm( Diagramm, DiagrammName ):
                          Decision[Id]=value
                          
                      else:
-                        RelevantBlocks[Id]=(value,"Action")
-                  
+                        RelevantBlocks[Id]=(value,"Task")
 
+    ############################################
+                  
+                #Start end
               if block.Attr["style"][2]=="shape=endState":
 
                      RelevantBlocks[Id]=(" ","End")
@@ -212,7 +217,7 @@ def DefineActionFromDigramm( Diagramm, DiagrammName ):
               if block.Attr["style"][0]=="sketch=0":
 
                      StartBlocks[Id]=(" ","Start")
-
+######################################
 
               if Type=="edgeLabel":
 
@@ -307,7 +312,7 @@ def BuildActivationDiagramm(file_path,DiagrammName):
 
     Code=CodeGeneration(ActionsString, NameObjectList,DiagrammName,RootFolderName)
 
-    File=open("ActionFlow_"+DiagrammName+".py", 'w')
+    File=open("TaskFlow_"+DiagrammName+".py", 'w')
 
     File.write(Code)
 
@@ -325,9 +330,11 @@ def BuildActivationDiagramm(file_path,DiagrammName):
 
               
 
-file_path="ActivTest.drawio"
+file_path=sys.argv[1]
+#"TestTaskFlow.drawio"
 
-DiagrammName="Test1"
+DiagrammName=sys.argv[2]
+#"Test1"
 
 BuildActivationDiagramm(file_path,DiagrammName)
 

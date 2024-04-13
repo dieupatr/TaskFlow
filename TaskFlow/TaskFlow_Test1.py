@@ -1,10 +1,9 @@
 
-from Action_Definitions import *
+from Task_Definitions_Test1 import *
 import pickle
 
 
-#Load Objects
-with open('Model_Test1/Objects_Test1.pkl', 'rb') as file:   Objects = pickle.load(file)
+Objects={ }
 
 #Load Arrows
 with open('Model_Test1'+'/Arrows_Test1.pkl', 'rb') as file:   Arrows = pickle.load(file)
@@ -18,11 +17,10 @@ with open('Model_Test1'+'/StartBlocks_Test1.pkl', 'rb') as file:   StartBlocks= 
 #Load DecisionBlocks
 with open('Model_Test1'+'/DecisionBlocks_Test1.pkl', 'rb') as file:   DecisionBlocks= pickle.load(file)
 
-Actions={
+Tasks={
 
-       'PrintOnKonsolebythesea' : lambda Objects : PrintOnKonsolebythesea(Objects)
-,'PrintOnKonsolebythe' : lambda Objects : PrintOnKonsolebythe(Objects)
-,'Seien' : lambda Objects : Seien(Objects)
+       'Print' : lambda Objects : Print(Objects)
+,'Input' : lambda Objects : Input(Objects)
 
 
 
@@ -55,7 +53,7 @@ def Flow_Test1():
                             value=Blocks[nextId][0]
                             Type=Blocks[nextId][1]
 
-                            if Type=="Action":  Actions[value](Objects)
+                            if Type=="Task":  Tasks[value](Objects)
 
                             if Type=="End":
                                    print("Flow Complete")
