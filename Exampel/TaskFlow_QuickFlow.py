@@ -1,21 +1,21 @@
 
-from Task_Definitions_Test1 import *
+from Task_Definitions_QuickFlow import *
 import pickle
 
 
 Objects={ }
 
 #Load Arrows
-with open('Model_Test1'+'/Arrows_Test1.pkl', 'rb') as file:   Arrows = pickle.load(file)
+with open('Model_QuickFlow'+'/Arrows_QuickFlow.pkl', 'rb') as file:   Arrows = pickle.load(file)
 
 #Load Blocks
-with open('Model_Test1'+'/Blocks_Test1.pkl', 'rb') as file:   Blocks = pickle.load(file)
+with open('Model_QuickFlow'+'/Blocks_QuickFlow.pkl', 'rb') as file:   Blocks = pickle.load(file)
 
 #Load StartBlocks
-with open('Model_Test1'+'/StartBlocks_Test1.pkl', 'rb') as file:   StartBlocks= pickle.load(file)
+with open('Model_QuickFlow'+'/StartBlocks_QuickFlow.pkl', 'rb') as file:   StartBlocks= pickle.load(file)
 
 #Load DecisionBlocks
-with open('Model_Test1'+'/DecisionBlocks_Test1.pkl', 'rb') as file:   DecisionBlocks= pickle.load(file)
+with open('Model_QuickFlow'+'/DecisionBlocks_QuickFlow.pkl', 'rb') as file:   DecisionBlocks= pickle.load(file)
 
 Tasks={
 
@@ -31,7 +31,7 @@ Tasks={
 # The flow
 
 
-def Flow_Test1():
+def Flow_QuickFlow():
        
        for StartId in StartBlocks:
 
