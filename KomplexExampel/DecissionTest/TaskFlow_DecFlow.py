@@ -19,7 +19,12 @@ with open('Model_DecFlow'+'/DecisionBlocks_DecFlow.pkl', 'rb') as file:   Decisi
 
 Tasks={
 
-       
+       'Inputx0' : lambda Objects : Inputx0(Objects)
+,'SetFx' : lambda Objects : SetFx(Objects)
+,'Fcond' : lambda Objects : Fcond(Objects)
+,'PrintX' : lambda Objects : PrintX(Objects)
+,'PrintY' : lambda Objects : PrintY(Objects)
+
 
 
        }
@@ -67,7 +72,7 @@ def Flow_DecFlow():
 
                             value=DecisionBlocks[nextId][2]
 
-                            State=Actions[value](Objects)
+                            State=Tasks[value](Objects)
 
                             Id=nextId
 

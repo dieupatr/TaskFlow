@@ -228,7 +228,7 @@ def Flow_{DiagrammName}():
 
                             value=DecisionBlocks[nextId][2]
 
-                            State=Actions[value](Objects)
+                            State=Tasks[value](Objects)
 
                             Id=nextId
 
