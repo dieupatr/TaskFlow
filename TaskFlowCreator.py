@@ -7,18 +7,33 @@ import sys
 
 
 
+
+# Generate by AI
+
+
+def create_file(file_path, content=None):
+    
+    if not os.path.exists(file_path):
+        with open(file_path, 'w') as file:
+            
+            if content:
+                file.write(content)  
+    else:
+        pass
+
+
+
+
+
+
+
+
 # Generate by AI
 # Valid +
 
 
 def pickle_dict(dictionary, filename):
-    """
-    Pickle a dictionary to a file.
-
-    Parameters:
-        dictionary (dict): The dictionary to pickle.
-        filename (str): The name of the file to pickle to.
-    """
+    
     with open(filename, 'wb') as file:
         pickle.dump(dictionary, file)
 
@@ -38,9 +53,6 @@ def create_folder(folder_name):
     
 
 
-
-
-
 def FormatFunctionValue(value):
 
        value=(value.replace(" ", "")).replace("?","")
@@ -50,9 +62,11 @@ def FormatFunctionValue(value):
 
 
 
-def BuildActionsDictonary(Function):
+def BuildActionsDictonary(Function,DiagrammName, RootFolderName):
 
        Actions={ }
+
+       File=open(RootFolderName+"/List_Actions_"+DiagrammName+".txt",'w')
 
        for key in Function:
 
@@ -60,6 +74,9 @@ def BuildActionsDictonary(Function):
                      
                      value=Function[key]
                      Actions[value]=f"{value}(Objects)"
+                     Func="def "+value+"(Objects):"+"\n        pass\n\n"
+                     File.write(Func)
+                     
                      
               except:
                      pass
@@ -68,9 +85,75 @@ def BuildActionsDictonary(Function):
       
        ActionsString=",".join([ "\'"+key+"\' "+": lambda Objects : "+ Actions[key]+"\n" for key in Actions])
 
+       File.close()
+
+       
+
        return ActionsString
 
-                     
+
+
+
+def CodeDeployFlow(DiagrammName, Filename):
+
+    return f"""
+import os
+
+
+RootPath=""
+Command=RootPath+"TaskFlowCreator.py "+"{Filename} "+"{DiagrammName}"
+
+print("Deploy {DiagrammName} ")
+
+os.system(Command)
+print("")
+print("Complete")
+
+print("")
+print("")
+input("Press enter to continue")
+
+    """
+
+
+
+def CodeTaskDefinitions(DiagrammName,Function):
+
+    Func=""
+
+    for key in Function:
+
+        value=Function[key]
+
+        Func=Func+"def "+value+"(Objects):"+"\n        pass\n\n"
+
+
+    return f"""
+
+{Func}
+
+
+    """
+
+        
+
+    
+
+
+
+def CodeFlowAgent(DiagrammName):
+    return f"""
+from TaskFlow_{DiagrammName} import Flow_{DiagrammName}
+
+
+Flow_{DiagrammName}(   )
+print(" ")
+print(" ")
+input("Press enter to continue")
+
+
+    """
+          
 
 
 
@@ -112,6 +195,7 @@ def Flow_{DiagrammName}():
        for StartId in StartBlocks:
 
               print("StartFlow")
+              print("")
 
               Id=StartId
 
@@ -132,6 +216,7 @@ def Flow_{DiagrammName}():
                             if Type=="Task":  Tasks[value](Objects)
 
                             if Type=="End":
+                                   print("")
                                    print("Flow Complete")
                                    break
                     
@@ -168,13 +253,9 @@ def DefineActionFromDigramm( Diagramm, DiagrammName ):
        Variables={}
        Function={}
        ArrowConection={}
-
        RelevantBlocks={}
-
        StartBlocks={}
-
        Labels={   }
-
        Decision={ }
 
 
@@ -205,7 +286,7 @@ def DefineActionFromDigramm( Diagramm, DiagrammName ):
                      else:
                         RelevantBlocks[Id]=(value,"Task")
 
-    ############################################
+   
                   
                 #Start end
               if block.Attr["style"][2]=="shape=endState":
@@ -217,19 +298,12 @@ def DefineActionFromDigramm( Diagramm, DiagrammName ):
               if block.Attr["style"][0]=="sketch=0":
 
                      StartBlocks[Id]=(" ","Start")
-######################################
 
               if Type=="edgeLabel":
 
                 parent=block.Attr["parent"]
                 Labels[parent]=value
                 
-
-
-              
-                     
-
-       
 
        for arrow in Diagramm.arrows:
 
@@ -292,8 +366,22 @@ def DefineActionFromDigramm( Diagramm, DiagrammName ):
        pickle_dict(Variables, NameObjectList)
 
        #Build Action dictonary
+
+       ActionsString=BuildActionsDictonary(Function,DiagrammName, RootFolderName)
+
+        #Code Flow Agent
+       code=CodeFlowAgent(DiagrammName)
+       create_file("FlowAgent_"+DiagrammName+".py", code)
+
+       #Code Task definitions
+       code=CodeTaskDefinitions(DiagrammName,Function)
+       create_file("Task_Definitions_"+DiagrammName+".py", code)
+
        
-       ActionsString=BuildActionsDictonary(Function)
+       
+       
+
+       
 
 
 
@@ -308,9 +396,14 @@ def BuildActivationDiagramm(file_path,DiagrammName):
 
     Diagramm=Diagramm[DiagrammName]
 
+    
+
     [ActionsString , NameObjectList,RootFolderName]=DefineActionFromDigramm( Diagramm, DiagrammName )
 
     Code=CodeGeneration(ActionsString, NameObjectList,DiagrammName,RootFolderName)
+
+
+    
 
     File=open("TaskFlow_"+DiagrammName+".py", 'w')
 
@@ -318,24 +411,21 @@ def BuildActivationDiagramm(file_path,DiagrammName):
 
     File.close()
 
+    #Generate Deploy Skript
+
+    CodeDeploySkript=CodeDeployFlow(DiagrammName, file_path)
+
+    create_file("DeployFlow_"+DiagrammName+".py",   CodeDeploySkript)
+
     
 
+    
 
-       
+  
 #############Main###############
      
-
-
-
-
-              
-
 file_path=sys.argv[1]
-#"TestTaskFlow.drawio"
-
 DiagrammName=sys.argv[2]
-#"Test1"
-
 BuildActivationDiagramm(file_path,DiagrammName)
 
 
