@@ -36,6 +36,7 @@ def Flow_QuickFlow():
        for StartId in StartBlocks:
 
               print("StartFlow")
+              print("")
 
               Id=StartId
 
@@ -56,6 +57,7 @@ def Flow_QuickFlow():
                             if Type=="Task":  Tasks[value](Objects)
 
                             if Type=="End":
+                                   print("")
                                    print("Flow Complete")
                                    break
                     
@@ -67,7 +69,7 @@ def Flow_QuickFlow():
 
                             value=DecisionBlocks[nextId][2]
 
-                            State=Actions[value](Objects)
+                            State=Tasks[value](Objects)
 
                             Id=nextId
 
