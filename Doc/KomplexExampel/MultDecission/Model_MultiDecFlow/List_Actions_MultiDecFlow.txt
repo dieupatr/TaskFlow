@@ -1,0 +1,15 @@
+def Input(Objects):
+        pass
+
+def Fcond(Objects):
+        pass
+
+def PrintX(Objects):
+        pass
+
+def PrintY(Objects):
+        pass
+
+def PrintZ(Objects):
+        pass
+

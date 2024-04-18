@@ -226,15 +226,15 @@ def Flow_{DiagrammName}():
 
                      elif nextId in DecisionBlocks:
 
-                            value=DecisionBlocks[nextId][2]
+                            value=DecisionBlocks[nextId][0]
+
+                            NextIds=DecisionBlocks[nextId][1]
 
                             State=Tasks[value](Objects)
 
                             Id=nextId
 
-                            if State==True :  nextId=DecisionBlocks[nextId][0][1]
-
-                            if State==False :  nextId=DecisionBlocks[nextId][1][1]
+                            nextId=NextIds[State]
                             
               return Objects
 
@@ -281,7 +281,7 @@ def DefineActionFromDigramm( Diagramm, DiagrammName ):
                      Function[Id]=value
 
                      if Type=="rhombus":
-                         Decision[Id]=value
+                         Decision[Id]=[value,{}]
                          
                      else:
                         RelevantBlocks[Id]=(value,"Task")
@@ -311,26 +311,25 @@ def DefineActionFromDigramm( Diagramm, DiagrammName ):
               target=arrow.Attr["target"]
               Id=arrow.Attr["id"]
 
-              
-
-              if source in ArrowConection:
+              if source in Decision:
 
                   ArrowLabel=Labels[Id]
-                  target_0=ArrowConection[source]
-                  target_1=target
                   value=Decision[source]
+                  Decision[source][1][ArrowLabel]=target
 
-                  if ArrowLabel=="true":
+                  continue
+                 
+            # target_0=ArrowConection[source]
+            #target_1=target
+
+                #  if ArrowLabel=="true":
                       
-                      Decision[source]=[ ("True",  target_1), ("False", target_0) ,value]
+                  #   Decision[source]=[ ("True",  target_1), ("False", target_0) ,value]
                       
-                  else:
+              #    else:
                     
-                    Decision[source]=[ ("True",  target_0), ("False", target_1) ,value]
-                    
-                      
-                  
-                  
+                 #   Decision[source]=[ ("True",  target_0), ("False", target_1) ,value]
+                     
                   continue
 
               ArrowConection[source]=target

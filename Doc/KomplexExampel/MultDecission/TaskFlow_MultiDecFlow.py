@@ -1,26 +1,29 @@
 
-from Task_Definitions_QuickFlow import *
+from Task_Definitions_MultiDecFlow import *
 import pickle
 
 
 Objects={ }
 
 #Load Arrows
-with open('Model_QuickFlow'+'/Arrows_QuickFlow.pkl', 'rb') as file:   Arrows = pickle.load(file)
+with open('Model_MultiDecFlow'+'/Arrows_MultiDecFlow.pkl', 'rb') as file:   Arrows = pickle.load(file)
 
 #Load Blocks
-with open('Model_QuickFlow'+'/Blocks_QuickFlow.pkl', 'rb') as file:   Blocks = pickle.load(file)
+with open('Model_MultiDecFlow'+'/Blocks_MultiDecFlow.pkl', 'rb') as file:   Blocks = pickle.load(file)
 
 #Load StartBlocks
-with open('Model_QuickFlow'+'/StartBlocks_QuickFlow.pkl', 'rb') as file:   StartBlocks= pickle.load(file)
+with open('Model_MultiDecFlow'+'/StartBlocks_MultiDecFlow.pkl', 'rb') as file:   StartBlocks= pickle.load(file)
 
 #Load DecisionBlocks
-with open('Model_QuickFlow'+'/DecisionBlocks_QuickFlow.pkl', 'rb') as file:   DecisionBlocks= pickle.load(file)
+with open('Model_MultiDecFlow'+'/DecisionBlocks_MultiDecFlow.pkl', 'rb') as file:   DecisionBlocks= pickle.load(file)
 
 Tasks={
 
-       'Print' : lambda Objects : Print(Objects)
-,'Input' : lambda Objects : Input(Objects)
+       'Input' : lambda Objects : Input(Objects)
+,'Fcond' : lambda Objects : Fcond(Objects)
+,'PrintX' : lambda Objects : PrintX(Objects)
+,'PrintY' : lambda Objects : PrintY(Objects)
+,'PrintZ' : lambda Objects : PrintZ(Objects)
 
 
 
@@ -31,7 +34,7 @@ Tasks={
 # The flow
 
 
-def Flow_QuickFlow():
+def Flow_MultiDecFlow():
        
        for StartId in StartBlocks:
 
@@ -76,12 +79,6 @@ def Flow_QuickFlow():
                             Id=nextId
 
                             nextId=NextIds[State]
-
-                                              
-
-                            #if State==True :  nextId=DecisionBlocks[nextId][0][1]
-
-                           # if State==False :  nextId=DecisionBlocks[nextId][1][1]
                             
               return Objects
 
