@@ -2,7 +2,7 @@
 import os
 
 
-RootPath=""
+RootPath="D:\\PatrickDaten\\WorkspaceGit\\TaskFlow\\"
 Command=RootPath+"TaskFlowCreator.py "+"LogicTest.drawio "+"LogicFlow"
 
 print("Deploy LogicFlow ")

@@ -49,7 +49,13 @@ def create_folder(folder_name):
     except :
         pass
         
-
+def get_key(val,Dictonary):
+   
+    for key, value in Dictonary.items():
+        if val == value:
+            return key
+ 
+    return None
     
 
 
@@ -166,6 +172,9 @@ import pickle
 
 Objects=? §
 
+#Load Goto
+with open('{RootFolderName}'+'/Goto_{DiagrammName}.pkl', 'rb') as file:   GotoBlock = pickle.load(file)
+
 #Load Arrows
 with open('{RootFolderName}'+'/Arrows_{DiagrammName}.pkl', 'rb') as file:   Arrows = pickle.load(file)
 
@@ -201,7 +210,7 @@ def Flow_{DiagrammName}():
 
               while True:
 
-                     if Id in DecisionBlocks:
+                     if (Id in DecisionBlocks) or (Id in GotoBlock):
                             pass
                      else:
                             nextId=Arrows[Id]
@@ -235,6 +244,14 @@ def Flow_{DiagrammName}():
                             Id=nextId
 
                             nextId=NextIds[State]
+
+ 
+                     elif  nextId in GotoBlock:
+
+                            Id=nextId
+
+                            nextId=GotoBlock[Id]           
+                    
                             
               return Objects
 
@@ -258,14 +275,29 @@ def DefineActionFromDigramm( Diagramm, DiagrammName ):
        Labels={   }
        Decision={ }
 
+       GotoBlock={   }
+
 
        FormTaskFlow=["rounded=1", "shape=process2","shape=note","shape=folder" ]
+
+       
 
        for block in Diagramm.blocks:
 
               value=block.Attr["value"]
               Id=block.Attr["id"]
               Type=block.Attr["style"][0]
+
+              if Type=="shape=parallelogram":
+
+                  value=value.split(":")[1]
+                  value=FormatFunctionValue(value)
+                  GotoBlock[Id]=value
+
+                  
+                  
+                  
+                 
 
               if Type=="rounded=0":
                      
@@ -319,26 +351,37 @@ def DefineActionFromDigramm( Diagramm, DiagrammName ):
 
                   continue
                  
-            # target_0=ArrowConection[source]
-            #target_1=target
-
-                #  if ArrowLabel=="true":
-                      
-                  #   Decision[source]=[ ("True",  target_1), ("False", target_0) ,value]
-                      
-              #    else:
-                    
-                 #   Decision[source]=[ ("True",  target_0), ("False", target_1) ,value]
+           
                      
-                  continue
+                  
 
               ArrowConection[source]=target
+              
+    
+       
+       
+       for key in GotoBlock:
+           value=GotoBlock[key]
+           keyTask=get_key(   (value,"Task")  ,RelevantBlocks)
+           GotoBlock[key]=keyTask
+           
+       print(GotoBlock)
+           
+       
+
+            
+
+            
+            
 
         #Create Folder
 
        RootFolderName="Model_"+DiagrammName
 
        create_folder(RootFolderName)
+
+        #Save Goto Blocks
+       pickle_dict(GotoBlock,RootFolderName+"/Goto_"+DiagrammName+".pkl" )
         
 
        #Save Arrows

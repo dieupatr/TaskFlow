@@ -5,6 +5,9 @@ import pickle
 
 Objects={ }
 
+#Load Goto
+with open('Model_LogicFlow'+'/Goto_LogicFlow.pkl', 'rb') as file:   GotoBlock = pickle.load(file)
+
 #Load Arrows
 with open('Model_LogicFlow'+'/Arrows_LogicFlow.pkl', 'rb') as file:   Arrows = pickle.load(file)
 
@@ -19,7 +22,8 @@ with open('Model_LogicFlow'+'/DecisionBlocks_LogicFlow.pkl', 'rb') as file:   De
 
 Tasks={
 
-       
+       'PrintX' : lambda Objects : PrintX(Objects)
+
 
 
        }
@@ -40,7 +44,7 @@ def Flow_LogicFlow():
 
               while True:
 
-                     if Id in DecisionBlocks:
+                     if (Id in DecisionBlocks) or (Id in GotoBlock):
                             pass
                      else:
                             nextId=Arrows[Id]
@@ -65,15 +69,23 @@ def Flow_LogicFlow():
 
                      elif nextId in DecisionBlocks:
 
-                            value=DecisionBlocks[nextId][2]
+                            value=DecisionBlocks[nextId][0]
 
-                            State=Actions[value](Objects)
+                            NextIds=DecisionBlocks[nextId][1]
+
+                            State=Tasks[value](Objects)
 
                             Id=nextId
 
-                            if State==True :  nextId=DecisionBlocks[nextId][0][1]
+                            nextId=NextIds[State]
 
-                            if State==False :  nextId=DecisionBlocks[nextId][1][1]
+ 
+                     elif  nextId in GotoBlock:
+
+                            Id=nextId
+
+                            nextId=GotoBlock[Id]           
+                    
                             
               return Objects
 
